@@ -5,10 +5,10 @@ function App() {
   const [tasks, setTasks] = useState([]);
   const [text, setText] = useState('');
   const [priority, setPriority] = useState('Medium');
-
+const API_URL = import.meta.env.VITE_API_URL || 'https://mern-task-manager2-gl92.onrender.com';
   const getTasks = async () => {
     try {
-      const res = await fetch('/api/tasks');
+      const res = await fetch(`${API_URL}/api/tasks`);
       const data = await res.json();
       if (Array.isArray(data)) {
         setTasks(data);
@@ -23,7 +23,7 @@ function App() {
   const addTask = async (e) => {
     e.preventDefault();
     if (!text.trim()) return;
-    await fetch('/api/tasks', {
+    await fetch(`${API_URL}/api/tasks`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ title: text, priority })
@@ -33,12 +33,12 @@ function App() {
   };
 
   const toggleTask = async (id) => {
-    await fetch(`/api/tasks/${id}`, { method: 'PUT' });
+    await fetch(`${API_URL}/api/tasks/${id}`, { method: 'PUT' });
     getTasks();
   };
 
   const deleteTask = async (id) => {
-    await fetch(`/api/tasks/${id}`, { method: 'DELETE' });
+    await fetch(`${API_URL}/api/tasks/${id}`, { method: 'DELETE' });
     getTasks();
   };
 
